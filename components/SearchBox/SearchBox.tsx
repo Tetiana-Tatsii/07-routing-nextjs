@@ -3,7 +3,7 @@
 import css from "./SearchBox.module.css";
 
 interface SearchBoxProps {
-  value: string; // Переконайся, що тут саме "value"
+  value: string;
   onChange: (value: string) => void;
 }
 

@@ -4,12 +4,11 @@ import css from "./Modal.module.css";
 
 type Props = {
   children: React.ReactNode;
-  isOpen?: boolean; // залишаємо опціональним, щоб не зламати старий код
-  onClose: () => void; // тепер робимо обов'язковим (прибираємо ?), щоб ментор бачив контроль
+  isOpen?: boolean;
+  onClose: () => void;
 };
 
 export default function Modal({ children, isOpen, onClose }: Props) {
-  // Якщо ми явно передали isOpen як false — ховаємо
   if (isOpen === false) return null;
 
   return (

@@ -19,7 +19,6 @@ export default function NotePreviewClient({ id }: { id: string }) {
     router.back();
   };
 
-  // ВИПРАВЛЕНО ТУТ: додаємо обов'язковий onClose навіть для Loading
   if (isLoading) {
     return (
       <Modal isOpen={true} onClose={handleClose}>
@@ -28,7 +27,6 @@ export default function NotePreviewClient({ id }: { id: string }) {
     );
   }
 
-  // ВИПРАВЛЕНО ТУТ: додаємо onClose для стану "не знайдено"
   if (!note) {
     return (
       <Modal isOpen={true} onClose={handleClose}>

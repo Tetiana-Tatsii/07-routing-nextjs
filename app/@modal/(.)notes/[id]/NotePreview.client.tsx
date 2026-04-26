@@ -1,21 +1,19 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation"; // Імпортуємо роутер тут
+import { useRouter } from "next/navigation";
 import { fetchNoteById } from "@/lib/api";
 import Modal from "@/components/Modal/Modal";
 import css from "./NotePreview.module.css";
 
 export default function NotePreviewClient({ id }: { id: string }) {
-  const router = useRouter(); // Створюємо екземпляр роутера
-
+  const router = useRouter();
   const { data: note, isLoading } = useQuery({
     queryKey: ["note", id],
     queryFn: () => fetchNoteById(id),
     refetchOnMount: false,
   });
 
-  // Ось ця функція, яку так хоче бачити ментор:
   const handleClose = () => {
     router.back();
   };
@@ -24,7 +22,6 @@ export default function NotePreviewClient({ id }: { id: string }) {
   if (!note) return <Modal onClose={handleClose}>Note not found</Modal>;
 
   return (
-    // Передаємо handleClose у проп onClose
     <Modal onClose={handleClose}>
       <div className={css.wrapper}>
         <h2 className={css.title}>{note.title}</h2>

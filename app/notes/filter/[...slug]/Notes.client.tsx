@@ -18,10 +18,8 @@ export default function NotesFilterClient({ tag }: Props) {
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 1. Дебаунс для пошуку (вимога ментора)
   const debouncedSearch = useDebounce(search, 500);
 
-  // 2. Запит до API (тепер динамічний)
   const { data, isLoading } = useQuery({
     queryKey: ["notes", page, debouncedSearch, tag],
     queryFn: () =>
@@ -31,7 +29,7 @@ export default function NotesFilterClient({ tag }: Props) {
         search: debouncedSearch,
         tag: tag === "all" ? "" : tag,
       }),
-    refetchOnMount: false, // Вимога ментора
+    refetchOnMount: false,
   });
 
   const notes = data?.notes || [];
@@ -39,7 +37,6 @@ export default function NotesFilterClient({ tag }: Props) {
 
   return (
     <div>
-      {/* 3. Рендеримо SearchBox та кнопку створення (вимога ментора) */}
       <div
         style={{
           display: "flex",
@@ -72,7 +69,6 @@ export default function NotesFilterClient({ tag }: Props) {
         <>
           <NoteList notes={notes} />
 
-          {/* 4. Виправляємо пропси пагінації під твій компонент */}
           <Pagination
             pageCount={totalPages}
             currentPage={page}
@@ -81,7 +77,6 @@ export default function NotesFilterClient({ tag }: Props) {
         </>
       )}
 
-      {/* 5. Рендеримо модалку з формою (вимога ментора) */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <NoteForm onClose={() => setIsModalOpen(false)} />
       </Modal>
