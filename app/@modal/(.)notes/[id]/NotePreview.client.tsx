@@ -6,27 +6,14 @@ import Modal from "@/components/Modal/Modal";
 import css from "./NotePreview.module.css";
 
 export default function NotePreviewClient({ id }: { id: string }) {
-  const {
-    data: note,
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data: note, isLoading } = useQuery({
     queryKey: ["note", id],
     queryFn: () => fetchNoteById(id),
+    refetchOnMount: false, // Вимога ментора
   });
 
-  if (isLoading)
-    return (
-      <Modal>
-        <p>Loading...</p>
-      </Modal>
-    );
-  if (isError || !note)
-    return (
-      <Modal>
-        <p>Error loading note.</p>
-      </Modal>
-    );
+  if (isLoading) return null;
+  if (!note) return <Modal>Note not found</Modal>;
 
   const formattedDate = note.updatedAt
     ? `Updated at: ${new Date(note.updatedAt).toLocaleDateString()}`
@@ -34,6 +21,8 @@ export default function NotePreviewClient({ id }: { id: string }) {
 
   return (
     <Modal>
+      {" "}
+      {/* Наш Modal вже має router.back() всередині, це має спрацювати */}
       <div className={css.wrapper}>
         <h2 className={css.title}>{note.title}</h2>
         <span className={css.tag}>{note.tag}</span>
