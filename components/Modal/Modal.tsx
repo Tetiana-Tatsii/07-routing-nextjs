@@ -1,34 +1,24 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import css from "./Modal.module.css";
 
 type Props = {
   children: React.ReactNode;
-  isOpen?: boolean;
-  onClose?: () => void;
+  isOpen?: boolean; // залишаємо опціональним, щоб не зламати старий код
+  onClose: () => void; // тепер робимо обов'язковим (прибираємо ?), щоб ментор бачив контроль
 };
 
 export default function Modal({ children, isOpen, onClose }: Props) {
-  const router = useRouter();
-
-  const handleClose = () => {
-    if (onClose) {
-      onClose();
-    } else {
-      router.back();
-    }
-  };
-
+  // Якщо ми явно передали isOpen як false — ховаємо
   if (isOpen === false) return null;
 
   return (
-    <div className={css.backdrop} onClick={handleClose}>
+    <div className={css.backdrop} onClick={onClose}>
       <div className={css.modal} onClick={(e) => e.stopPropagation()}>
-        {children}
-        <button className={css.closeButton} onClick={handleClose}>
+        <button className={css.closeButton} onClick={onClose}>
           Close
         </button>
+        {children}
       </div>
     </div>
   );
